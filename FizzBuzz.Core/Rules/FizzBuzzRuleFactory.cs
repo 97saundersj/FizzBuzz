@@ -11,8 +11,9 @@ namespace FizzBuzz.Core.Rules
             _rules = Assembly.GetExecutingAssembly()
                 .GetTypes()
                 .Where(t => typeof(IFizzBuzzRule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-                .Select(t => (IFizzBuzzRule)Activator.CreateInstance(t)!)
-                .OrderBy(r => r.Priority);
+                .Select(t => Activator.CreateInstance(t) as IFizzBuzzRule)
+                .Where(r => r != null)
+                .OrderBy(r => r!.Priority);
         }
 
         public IFizzBuzzRule? GetRule(int number)
