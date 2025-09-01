@@ -1,6 +1,8 @@
-﻿using FizzBuzz.Core.Services;
+﻿using FizzBuzz;
+using FizzBuzz.Core.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace FizzBuzzTests.Services
+namespace FizzBuzzTests.Integration
 {
     [TestClass()]
     public class FizzBuzzServiceTests
@@ -13,7 +15,8 @@ namespace FizzBuzzTests.Services
         public void GetFizzBuzzResult_ReturnsCorrectResult(int number, string expected)
         {
             // Arrange
-            var fizzBuzzService = new FizzBuzzService();
+            var serviceProvider = ServiceConfiguration.ConfigureServices();
+            var fizzBuzzService = serviceProvider.GetRequiredService<IFizzBuzzService>();
 
             // Act
             string result = fizzBuzzService.GetFizzBuzzResult(number);
@@ -28,13 +31,29 @@ namespace FizzBuzzTests.Services
         public void GetFizzBuzzRange_ReturnsCorrectSequence(int start, int end, string[] expected)
         {
             // Arrange
-            var fizzBuzzService = new FizzBuzzService();
+            var serviceProvider = ServiceConfiguration.ConfigureServices();
+            var fizzBuzzService = serviceProvider.GetRequiredService<IFizzBuzzService>();
 
             // Act
             string[] result = fizzBuzzService.GetFizzBuzzRange(start, end);
 
             // Assert
             CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void GetFizzBuzzRange_InvalidStartAndEnd_ReturnsError()
+        {
+            var start = 10;
+            var end = 1;
+
+            // Arrange
+            var serviceProvider = ServiceConfiguration.ConfigureServices();
+            var fizzBuzzService = serviceProvider.GetRequiredService<IFizzBuzzService>();
+
+            // Act & Assert
+
+            Assert.ThrowsException<ArgumentException>(() => fizzBuzzService.GetFizzBuzzRange(start, end));
         }
     }
 }
