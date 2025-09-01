@@ -48,10 +48,10 @@ namespace FizzBuzzTests.Unit
             var mockRuleFactory = new Mock<IFizzBuzzRuleFactory>();
             mockRuleFactory.Setup(f => f.GetRule(It.IsAny<int>())).Returns((IFizzBuzzRule?)null);
 
-            var mockService = new Mock<FizzBuzzService>(mockRuleFactory.Object);
+            var service = new FizzBuzzService(mockRuleFactory.Object);
 
             // Act
-            string[] result = mockService.Object.GetFizzBuzzRange(1, 3);
+            string[] result = service.GetFizzBuzzRange(1, 3);
 
             // Assert
             Assert.AreEqual(3, result.Length);
