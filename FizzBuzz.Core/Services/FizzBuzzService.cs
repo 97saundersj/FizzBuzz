@@ -1,11 +1,22 @@
-﻿namespace FizzBuzz.Core.Services
+﻿using FizzBuzz.Core.Rules;
+
+namespace FizzBuzz.Core.Services
 {
     public class FizzBuzzService : IFizzBuzzService
     {
+        private readonly IFizzBuzzRuleFactory _ruleFactory;
+
+        public FizzBuzzService(IFizzBuzzRuleFactory ruleFactory)
+        {
+            _ruleFactory = ruleFactory;
+        }
+
         public string[] GetFizzBuzzRange(int start, int end)
         {
             if (start > end)
+            {
                 throw new ArgumentException("Start must be less than or equal to end");
+            }
 
             var results = new string[end - start + 1];
             for (int i = 0; i < results.Length; i++)
@@ -17,14 +28,14 @@
 
         public string GetFizzBuzzResult(int number)
         {
-            if (number % 3 == 0 && number % 5 == 0)
-                return "FizzBuzz";
-            else if (number % 3 == 0)
-                return "Fizz";
-            else if (number % 5 == 0)
-                return "Buzz";
-            else
+            var rule = _ruleFactory.GetRule(number);
+
+            if (rule == null)
+            {
+                // There is no available rule so just return the number
                 return number.ToString();
+            }
+            return rule.GetOutput();
         }
     }
 }

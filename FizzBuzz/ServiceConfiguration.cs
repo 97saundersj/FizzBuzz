@@ -1,4 +1,3 @@
-using FizzBuzz.Core.Rules;
 using FizzBuzz.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,9 +8,6 @@ namespace FizzBuzz
         public static IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();
-
-            // Register the rule factory
-            services.AddScoped<IFizzBuzzRuleFactory, FizzBuzzRuleFactory>();
 
             // Register the FizzBuzz service
             services.AddScoped<IFizzBuzzService, FizzBuzzService>();
