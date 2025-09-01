@@ -6,9 +6,9 @@ namespace FizzBuzz.Core.Rules
     public interface IFizzBuzzRule
     {
         /// <summary>
-        /// Gets the priority of this rule. Lower values are evaluated first.
+        /// Gets the priority of this rule. Lower enum values are evaluated first.
         /// </summary>
-        int Priority { get; }
+        RulePriority Priority { get; }
 
         /// <summary>
         /// Determines if the given number matches this rule.

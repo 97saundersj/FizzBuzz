@@ -2,7 +2,7 @@ namespace FizzBuzz.Core.Rules
 {
     public class BuzzRule : IFizzBuzzRule
     {
-        public int Priority => 1;
+        public RulePriority Priority => RulePriority.Buzz;
 
         public bool IsMatch(int number) => number % 5 == 0;
 
